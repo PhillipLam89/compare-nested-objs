@@ -29,3 +29,37 @@ function compareObjs(obj1, obj2) {
   }
   return true
 }
+
+
+
+const obj1 = {
+  a: {phil: {age:30, job: ['teacher','blah']}},
+  b: 2,
+  c: { foo: 2, x: {bar: 2} },
+  d: 0,
+  e: [1,2,{myNumber:3}],
+  f: function hi(xs){},
+  g: null,
+  h: Symbol(Object.prototype),
+  i: NaN,
+  j: Infinity,
+  k: 'hi!11',
+  l: Date.now(),
+  m: [Promise, String(55)]
+}
+
+const obj2 = {
+  a: {phil: {age:30, job: ['teacher','blah']}},
+  b: 2,
+  c: { foo: 2, x: {bar: 2} },
+  d: 0,
+  e: [1,2,{myNumber:3}],
+  f: function hi(xs){},
+  g: null,
+  h: Symbol(Object.prototype),
+  i: NaN,
+  j: Infinity,
+  k: 'hi!11',
+  l: Date.now(),
+  m: [Promise, String(55)]
+}
