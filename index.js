@@ -18,12 +18,12 @@ function compareObjs(obj1, obj2) {
   if (myStr.includes(typeof obj1) || myStr.includes(typeof obj2)) {
         return String(obj1) === String(obj2)
     }
-    
+
   const keys1 = String(Object.keys(obj1))
   const keys2 = String(Object.keys(obj2))
   if (keys1 != keys2) return false
 
-  
+
   for (const key of Object.keys(obj1)) {
     if (!compareObjs(obj1[key], obj2[key])) return false
   }
