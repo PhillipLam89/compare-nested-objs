@@ -1,31 +1,34 @@
+//Will do deep comparison any 2 values,
+// nested objs as well, ALL types
+
 const NaN_exists = (v1,v2) => String(v1) == 'NaN' || String(v2) == 'NaN'
 const number_exists = (n1,n2) => typeof n1 == 'number' || typeof n2 == 'number'
+const bothAreZero = (n1,n2) => n1 === 0 && n2 === 0
 let recursiveCount = 0
 
-function compareObjs(obj1, obj2) {
+function compare2Values(value1, value2) {
   // console.log(`RECURSIVE PART ran ${recursiveCount++} times`)
-  if (obj1 === obj2 && obj1 !== 0) return true
-  if (obj1 == null || obj2 == null) return false
+  if (value1 === value2 && !bothAreZero(value1,value2)) return true
+  if (value1 == null || value2 == null) return false
 
 
-  if (NaN_exists(obj1,obj2) || (obj1 === 0))
-    return obj1.toLocaleString() === obj2.toLocaleString()
-  else if (number_exists(obj1,obj2))
-    return obj1===obj2
-
+  if (NaN_exists(value1,value2) || bothAreZero(value1,value2) )
+    return value1.toLocaleString() === value2.toLocaleString()
+  else if (number_exists(value1,value2))
+    return value1===value2
 
   const myStr = 'string function symbol'
-  if (myStr.includes(typeof obj1) || myStr.includes(typeof obj2)) {
-        return String(obj1) === String(obj2)
+  if (myStr.includes(typeof value1) || myStr.includes(typeof value2)) {
+        return String(value1) === String(value2)
     }
 
-  const keys1 = String(Object.keys(obj1))
-  const keys2 = String(Object.keys(obj2))
+  const keys1 = String(Object.keys(value1))
+  const keys2 = String(Object.keys(value2))
   if (keys1 != keys2) return false
 
 
-  for (const key of Object.keys(obj1)) {
-    if (!compareObjs(obj1[key], obj2[key])) return false
+  for (const key of Object.keys(value1)) {
+    if (!compare2Values(value1[key], value2[key])) return false
   }
   return true
 }
@@ -36,9 +39,9 @@ const obj1 = {
   a: {phil: {age:30, job: ['teacher','blah']}},
   b: 2,
   c: { foo: 2, x: {bar: 2} },
-  d: 0,
+  d: '0',
   e: [1,2,{myNumber:3}],
-  f: function hi(xs){},
+  f: function hi(xs){return -0},
   g: null,
   h: Symbol(Object.prototype),
   i: NaN,
@@ -52,9 +55,9 @@ const obj2 = {
   a: {phil: {age:30, job: ['teacher','blah']}},
   b: 2,
   c: { foo: 2, x: {bar: 2} },
-  d: 0,
+  d: '0',
   e: [1,2,{myNumber:3}],
-  f: function hi(xs){},
+  f: function hi(xs){return -0},
   g: null,
   h: Symbol(Object.prototype),
   i: NaN,
@@ -63,3 +66,10 @@ const obj2 = {
   l: Date.now(),
   m: [Promise, String(55)]
 }
+
+console.log('2 nested arrays/objs =>',compare2Values(obj1,obj2)) //true
+console.log('array of same values =>',compare2Values( [1,2,3], [1,2,3] )) //true
+console.log('array w/ DIFF values =>',compare2Values( [1,2,3], [999,2,3] )) //true
+console.log('NaN === NaN =>',compare2Values(NaN, NaN)) //true
+console.log('negative zero & zero =>',compare2Values(-0, +0)) //false
+console.log('Symbols with same tags =>',compare2Values(Symbol('1'), Symbol('1'))) //false
