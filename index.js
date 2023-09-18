@@ -7,10 +7,11 @@ const bothAreZero = (n1,n2) => n1 === 0 && n2 === 0
 let recursiveCount = 0
 
 function compare2Values(value1, value2) {
-  // console.log(`RECURSIVE PART ran ${recursiveCount++} times`)
-  if (value1 === value2 && !bothAreZero(value1,value2)) return true
-  if (value1 == null || value2 == null) return false
-
+  console.log(`RECURSIVE PART ran ${recursiveCount++} times`)
+  if (value1 === value2 && !bothAreZero(value1,value2))
+      return true
+  if (value1 == null || value2 == null)
+      return false
 
   if (NaN_exists(value1,value2) || bothAreZero(value1,value2) )
     return value1.toLocaleString() === value2.toLocaleString()
@@ -19,7 +20,8 @@ function compare2Values(value1, value2) {
 
   const myStr = 'string function symbol'
   if (myStr.includes(typeof value1) || myStr.includes(typeof value2)) {
-        return String(value1) === String(value2)
+        return String(value1)?.valueOf() ===
+                   String(value2)?.valueOf()
     }
 
   const keys1 = String(Object.keys(value1))
@@ -28,7 +30,7 @@ function compare2Values(value1, value2) {
 
 
   for (const key of Object.keys(value1)) {
-    if (!compare2Values(value1[key], value2[key])) return false
+    if (!compare2Values(value1[key]?.valueOf(), value2[key]?.valueOf())) return false
   }
   return true
 }
@@ -36,40 +38,41 @@ function compare2Values(value1, value2) {
 
 
 const obj1 = {
-  a: {phil: {age:30, job: ['teacher','blah']}},
+  a: {phil: {age:30, job: ['teacher', class PHIL{}] }},
   b: 2,
-  c: { foo: 2, x: {bar: 2} },
-  d: -0,
-  e: [1,2,{myNumber:3}],
+  c: { foo: new String('A'), x: {bar: 2,NaN:undefined} },
+  d: Array({undefined},1,2,[5]),
+  e: [1,2,{myNumber: new Number(3)}],
   f: function hi(xs){return -0},
   g: null,
   h: Symbol(Object.prototype),
   i: NaN,
   j: Infinity,
-  k: 'hi!11',
+  k: 'hi!',
   l: Date.now(),
-  m: [Promise, String(55)]
+  m: [Promise, String(Math.PI)]
 }
 
 const obj2 = {
-  a: {phil: {age:30, job: ['teacher','blah']}},
+  a: {phil: {age:30, job: ['teacher',class PHIL{}]}},
   b: 2,
-  c: { foo: 2, x: {bar: 2} },
-  d: -0,
-  e: [1,2,{myNumber:3}],
+  c: { foo: new String('A'), x: {bar: 2,NaN:undefined} },
+  d: Array({undefined},1,2,[5]),
+  e: [1,2,{myNumber: new Number(3)}],
   f: function hi(xs){return -0},
   g: null,
   h: Symbol(Object.prototype),
   i: NaN,
   j: Infinity,
-  k: 'hi!11',
+  k: 'hi!',
   l: Date.now(),
-  m: [Promise, String(55)]
+  m: [Promise, String(Math.PI)]
 }
 
 console.log('2 nested arrays/objs =>',compare2Values(obj1,obj2)) //true
-console.log('array of same values =>',compare2Values( [1,2,3], [1,2,3] )) //true
-console.log('array w/ DIFF values =>',compare2Values( [1,2,3], [999,2,3] )) //true
-console.log('NaN === NaN =>',compare2Values(NaN, NaN)) //true
-console.log('negative zero & zero =>',compare2Values(-0, +0)) //false
-console.log('Symbols with same tags =>',compare2Values(Symbol('1'), Symbol('1'))) //false
+// console.log('array of same values =>',compare2Values( [1,2,3], [1,2,3] )) //true
+// console.log('array w/ DIFF values =>',compare2Values( [1,2,3], [999,2,3] )) //true
+// console.log('NaN === NaN =>',compare2Values(NaN, NaN)) //true
+// console.log('negative zero & zero =>',compare2Values(-0, +0)) //false
+// console.log('Symbols with same labels =>',compare2Values(Symbol('1'), Symbol('1'))) //true
+// console.log('Symbols with DIFF labels =>',compare2Values(Symbol('500'), Symbol('1'))) //false
