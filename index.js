@@ -80,7 +80,7 @@ const obj2 = {
 
 console.log('2 same-value nested arrays/objs =>',compare2Values(obj1,obj2)) //true
 // console.log('array of same values =>',compare2Values( [1,2,3], [1,2,3] )) //true
-// console.log('array w/ DIFF values =>',compare2Values( [1,2,3], [999,2,3] )) //true
+// console.log('array w/ DIFF values =>',compare2Values( [1,2,3], [999,2,3] )) //false
 // console.log('NaN === NaN =>',compare2Values(NaN, NaN)) //true
 // console.log('negative zero & zero =>',compare2Values(-0, +0)) //false
 // console.log('Symbols with same labels =>',compare2Values(Symbol('1'), Symbol('1'))) //true
