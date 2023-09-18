@@ -10,21 +10,30 @@ function compare2Values(value1, value2) {
   console.log(`RECURSIVE PART ran ${recursiveCount++} times`)
   if (value1 === value2 && !bothAreZero(value1,value2))
       return true
+
+    // handles 'NaN' vs NaN
+  if (typeof value1 !== typeof value2) return false
+
+   // prevents type null == 'object' case
   if (value1 === null || value2 === null)
       return false
+
           //handle #s NaN and neg/pos zeroes
   if (NaN_exists(value1,value2) || bothAreZero(value1,value2) )
     return value1.toLocaleString() === value2.toLocaleString()
   else if (number_exists(value1,value2))
     return value1===value2
+
         //handles func,symbol & string comparison
   const myStr = 'function symbol string'
   if (myStr.includes(typeof value1) || myStr.includes(typeof value2)) {
         return String(value1)===String(value2)
     }
+
   // Lines below ONLY run if the values are arrays or objs
   const keys1 = String(Object.keys(value1))
   const keys2 = String(Object.keys(value2))
+
   // checks for key property names
   if (keys1 != keys2) return false
 
@@ -33,6 +42,8 @@ function compare2Values(value1, value2) {
   }
   return true
 }
+
+
 
 const obj1 = {
   a: {phil: {age:30, job: ['teacher', class PHIL{}] }},
@@ -65,6 +76,7 @@ const obj2 = {
   l: Date.now(),
   m: [Promise, String(Math.PI)]
 }
+
 
 console.log('2 same-value nested arrays/objs =>',compare2Values(obj1,obj2)) //true
 // console.log('array of same values =>',compare2Values( [1,2,3], [1,2,3] )) //true
