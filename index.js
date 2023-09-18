@@ -12,20 +12,20 @@ function compare2Values(value1, value2) {
       return true
   if (value1 === null || value2 === null)
       return false
-
+          //handle #s NaN and neg/pos zeroes
   if (NaN_exists(value1,value2) || bothAreZero(value1,value2) )
     return value1.toLocaleString() === value2.toLocaleString()
   else if (number_exists(value1,value2))
     return value1===value2
-
-  const myStr = 'function symbol'
+        //handles func,symbol & string comparison
+  const myStr = 'function symbol string'
   if (myStr.includes(typeof value1) || myStr.includes(typeof value2)) {
         return String(value1)===String(value2)
     }
-
+  // Lines below ONLY run if the values are arrays or objs
   const keys1 = String(Object.keys(value1))
   const keys2 = String(Object.keys(value2))
-
+  // checks for key property names
   if (keys1 != keys2) return false
 
   for (const key of Object.keys(value1)) {
@@ -33,8 +33,6 @@ function compare2Values(value1, value2) {
   }
   return true
 }
-
-
 
 const obj1 = {
   a: {phil: {age:30, job: ['teacher', class PHIL{}] }},
@@ -47,13 +45,13 @@ const obj1 = {
   h: Symbol(Object.prototype),
   i: NaN,
   j: Infinity,
-  k: 'hi!',
+  k: 'his!',
   l: Date.now(),
   m: [Promise, String(Math.PI)]
 }
 
 const obj2 = {
-  a: {phil: {age:30, job: ['teacher',class PHIL{}]}},
+  a: {phil: {age:30, job: ['teacher', class PHIL{}] }},
   b: 2,
   c: { foo: new String('A'), x: {bar: 2,NaN:undefined} },
   d: Array({undefined},1,2,[5]),
@@ -63,7 +61,7 @@ const obj2 = {
   h: Symbol(Object.prototype),
   i: NaN,
   j: Infinity,
-  k: 'hi!',
+  k: 'his!',
   l: Date.now(),
   m: [Promise, String(Math.PI)]
 }
@@ -75,4 +73,3 @@ console.log('2 same-value nested arrays/objs =>',compare2Values(obj1,obj2)) //tr
 // console.log('negative zero & zero =>',compare2Values(-0, +0)) //false
 // console.log('Symbols with same labels =>',compare2Values(Symbol('1'), Symbol('1'))) //true
 // console.log('Symbols with DIFF labels =>',compare2Values(Symbol('500'), Symbol('1'))) //false
-
