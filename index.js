@@ -1,8 +1,6 @@
 //Will do deep comparison any 2 values,
 // nested objs as well, ALL types
 
-const NaN_exists = (v1,v2) => String(v1) == 'NaN' || String(v2) == 'NaN'
-const number_exists = (n1,n2) => typeof n1 == 'number' || typeof n2 == 'number'
 const bothAreZero = (n1,n2) => n1 === 0 && n2 === 0
 let recursiveCount = 0
 
