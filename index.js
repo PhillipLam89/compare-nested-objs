@@ -1,13 +1,12 @@
 //Will do deep comparison any 2 values,
 // nested objs as well, ALL types
 
-const bothAreZero = (n1,n2) => n1 === 0 && n2 === 0
 let recursiveCount = 0
 
 function compare2Values(value1, value2) {
   // console.log(`RECURSIVE PART ran ${recursiveCount++} times`)
 
-  if (value1 === value2 && !bothAreZero(value1,value2))
+  if (value1 === value2 && value1 !== 0)
       return true
 
   if (value1 == undefined || value2 == undefined) return false
